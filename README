@@ -1,0 +1,85 @@
+# API de Registro de Vulnerabilidades
+
+API REST con Flask, SQLite y JWT para administrar un registro de vulnerabilidades de seguridad (título, código CVE, severidad, estado y puntaje CVSS).
+
+## Requisitos
+- Python 3.10 o superior
+
+## Instalación
+
+1. Crear el entorno virtual:
+
+```
+python -m venv .venv
+```
+
+2. Activar el entorno virtual (según tu shell):
+
+- Linux/Mac (bash/zsh): `source .venv/bin/activate`
+- Fish: `source .venv/bin/activate.fish`
+- Windows (CMD): `.venv\Scripts\activate`
+- Windows (PowerShell): `.venv\Scripts\Activate.ps1`
+
+3. Instalar las dependencias:
+
+```
+pip install -r requirements.txt
+```
+
+## Ejecución
+
+```
+python api_vulnerabilidades.py
+```
+
+El servidor queda disponible en http://127.0.0.1:5000. La base de datos (`vulnerabilidades.db`) se crea automáticamente al iniciar y los datos se conservan al reiniciar el servidor.
+
+## Credenciales de prueba
+
+- usuario: `teacher`
+- clave: `demo123`
+
+## Uso
+
+1. Hacer `POST /login` con este cuerpo JSON:
+
+```json
+{ "username": "teacher", "clave": "demo123" }
+```
+
+2. Copiar el token recibido y enviarlo en las rutas protegidas con el encabezado:
+
+```
+Authorization: Bearer <token>
+```
+
+El token expira en 1 hora.
+
+## Rutas
+
+| Método | Ruta | Protegida |
+|--------|------|-----------|
+| POST | /login | No |
+| GET | /vulnerabilidades         | No |
+| GET | /vulnerabilidades/{id}    | No |
+| POST | /vulnerabilidades        | Sí |
+| PUT | /vulnerabilidades/{id}    | Sí |
+| DELETE | /vulnerabilidades/{id} | Sí |
+
+## Ejemplo de cuerpo para POST y PUT
+
+```json
+{
+  "titulo": "SQL Injection en formulario de login",
+  "cve_codigo": "CVE-2024-12345",
+  "severidad": "alta",
+  "estado": "abierta",
+  "puntaje_cvss": 8.1
+}
+```
+
+Valores permitidos:
+- `severidad`: baja, media, alta, critica
+- `estado`: abierta, en_revision, mitigada, cerrada
+- `puntaje_cvss`: número entre 0 y 10
+- `cve_codigo`: formato CVE-AAAA-NNNN
