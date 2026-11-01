@@ -1,0 +1,5 @@
+flask
+pyjwt
+pytest
+cors
+flask_cors

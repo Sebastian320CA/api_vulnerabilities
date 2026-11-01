@@ -1,4 +1,5 @@
-from flask import Flask, app, jsonify, request
+from flask import Flask, jsonify, request  
+from flask_cors import CORS   
 import sqlite3
 import jwt, datetime
 from functools import wraps
